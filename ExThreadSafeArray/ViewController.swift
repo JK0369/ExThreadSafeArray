@@ -11,10 +11,34 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
+    
+    let serialQueue1 = DispatchQueue(label: "serial1")
+    let serialQueue2 = DispatchQueue(label: "serial2")
+    serialQueue1.async {
+      print("job 1")
+    }
+    serialQueue2.sync {
+      print("job 2")
+    }
+    serialQueue1.async {
+      print("job 3")
+    }
+    serialQueue2.sync {
+      print("job 4")
+    }
+    serialQueue1.async {
+      print("job 5")
+    }
+    serialQueue2.sync {
+      print("job 6")
+    }
+    serialQueue1.async {
+      print("job 7")
+    }
+    serialQueue2.sync {
+      print("job 8")
+    } 
   }
-
-
 }
 
 final class ThreadSafeArray<T> {
