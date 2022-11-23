@@ -49,11 +49,16 @@ final class ThreadSafeArray<T> {
 // Operator
 extension ThreadSafeArray {
   func first() -> T? {
-    self.array.first
+    queue.sync {
+      self.array.first
+    }
   }
   
-  func removeLast() -> T? {
-    guard !self.array.isEmpty else { return nil }
-    return self.array.remove(at: self.array.count - 1)
+  func removeLast() {
+    queue.async(flags: .barrier) {
+      if !self.array.isEmpty {
+        self.array.remove(at: self.array.count - 1)
+      }
+    }
   }
 }
